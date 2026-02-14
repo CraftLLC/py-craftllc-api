@@ -1,0 +1,459 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CraftAPI v1.0.0 - Documentation</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-hover: #4f46e5;
+            --bg: #0f172a;
+            --sidebar-bg: #1e293b;
+            --card-bg: rgba(30, 41, 59, 0.7);
+            --text: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: rgba(255, 255, 255, 0.1);
+            --accent: #10b981;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        aside {
+            width: 300px;
+            background-color: var(--sidebar-bg);
+            border-right: 1px solid var(--border);
+            padding: 2rem;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .brand {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .version {
+            font-size: 0.8rem;
+            background: var(--primary);
+            color: white;
+            padding: 0.2rem 0.6rem;
+            border-radius: 9999px;
+            font-weight: normal;
+        }
+
+        nav ul {
+            list-style: none;
+        }
+
+        nav li {
+            margin-bottom: 0.5rem;
+        }
+
+        nav a {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: all 0.2s;
+            font-size: 0.95rem;
+            display: block;
+            padding: 0.4rem 0.8rem;
+            border-radius: 6px;
+        }
+
+        nav a:hover {
+            color: var(--text);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        nav .active {
+            color: var(--primary);
+            background: rgba(99, 102, 241, 0.1);
+            font-weight: 500;
+        }
+
+        /* Main Content */
+        main {
+            flex: 1;
+            padding: 3rem 5rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        h1, h2, h3 {
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+        }
+
+        h1 { font-size: 2.5rem; margin-top: 0; }
+        h2 { font-size: 1.8rem; margin-top: 3rem; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; color: var(--primary); }
+        h3 { font-size: 1.3rem; margin-top: 2rem; }
+
+        .doc-section {
+            margin-bottom: 4rem;
+        }
+
+        .item {
+            background: var(--card-bg);
+            backdrop-filter: blur(8px);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+            border-color: rgba(99, 102, 241, 0.3);
+        }
+
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .item-name {
+            font-family: 'Fira Code', monospace;
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: var(--accent);
+        }
+
+        .item-type {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            background: rgba(255, 255, 255, 0.05);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+        }
+
+        .item-doc {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+        }
+
+        code {
+            font-family: 'Fira Code', monospace;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+
+        pre {
+            background: #000;
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+
+        pre code {
+            background: transparent;
+            padding: 0;
+        }
+
+        .signature {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            display: block;
+            font-weight: 500;
+        }
+
+        .variable-value {
+            font-family: 'Fira Code', monospace;
+            color: #fb923c;
+            margin-left: 0.5rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            body { flex-direction: column; }
+            aside { width: 100%; height: auto; position: static; }
+            main { padding: 2rem; }
+        }
+    </style>
+</head>
+<body>
+    <aside>
+        <div class="brand">
+            CraftAPI <span class="version">v1.0.0</span>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#craftapi">craftapi</a></li><li><a href="#craftapi-nytgames">craftapi.nytgames</a></li><li><a href="#craftapi-requests">craftapi.requests</a></li><li><a href="#craftapi-vartools">craftapi.vartools</a></li>
+            </ul>
+        </nav>
+    </aside>
+    <main>
+        <h1>CraftAPI</h1>
+        <p style="color: var(--text-muted); margin-bottom: 3rem;">Documentation generated by Wikin.</p>
+        
+        <section id="craftapi" class="doc-section"><h2>Module: craftapi</h2><div class="module-doc"><p>CraftAPI - Advanced API and data handling library.</p></div></section><section id="craftapi-nytgames" class="doc-section"><h2>Module: craftapi.nytgames</h2><h3>Classes</h3>
+                    <div class="item">
+                        <div class="item-header">
+                            <div>
+                                <span class="item-name">Wordle</span>
+                                <span class="item-type">class</span>
+                            </div>
+                        </div>
+                        <div class="item-doc"><p>Tools for retrieving data from New York Times games.</p></div>
+                        
+                        <div style="margin-left: 1.5rem; margin-top: 1rem; border-left: 2px solid var(--border); padding-left: 1rem;">
+                            <div class="item-header">
+                                <span class="item-name" style="font-size: 0.9rem;">answer</span>
+                                <span class="item-type" style="font-size: 0.6rem;">method</span>
+                            </div>
+                            <code class="signature" style="font-size: 0.8rem;">answer(self)</code>
+                            <div class="item-doc" style="font-size: 0.85rem;"><p>Retrieves the answer for today's Wordle.</p></div>
+                        </div>
+                        
+                    </div>
+                    </section><section id="craftapi-requests" class="doc-section"><h2>Module: craftapi.requests</h2><h3>Classes</h3>
+                    <div class="item">
+                        <div class="item-header">
+                            <div>
+                                <span class="item-name">UnknownMethod</span>
+                                <span class="item-type">class</span>
+                            </div>
+                        </div>
+                        <div class="item-doc"><p>Exception for unknown HTTP methods.</p></div>
+                        
+                    </div>
+                    
+                    <div class="item">
+                        <div class="item-header">
+                            <div>
+                                <span class="item-name">ReqTools</span>
+                                <span class="item-type">class</span>
+                            </div>
+                        </div>
+                        <div class="item-doc"><p>A set of tools for performing HTTP requests and parsing web pages.</p></div>
+                        
+                        <div style="margin-left: 1.5rem; margin-top: 1rem; border-left: 2px solid var(--border); padding-left: 1rem;">
+                            <div class="item-header">
+                                <span class="item-name" style="font-size: 0.9rem;">__init__</span>
+                                <span class="item-type" style="font-size: 0.6rem;">method</span>
+                            </div>
+                            <code class="signature" style="font-size: 0.8rem;">__init__(self)</code>
+                            <div class="item-doc" style="font-size: 0.85rem;"><p>Initializes a ReqTools instance.</p></div>
+                        </div>
+                        
+                        <div style="margin-left: 1.5rem; margin-top: 1rem; border-left: 2px solid var(--border); padding-left: 1rem;">
+                            <div class="item-header">
+                                <span class="item-name" style="font-size: 0.9rem;">whois</span>
+                                <span class="item-type" style="font-size: 0.6rem;">method</span>
+                            </div>
+                            <code class="signature" style="font-size: 0.8rem;">whois(self, address)</code>
+                            <div class="item-doc" style="font-size: 0.85rem;"><p>Retrieves WHOIS information for a specified IP address or domain.</p>
+<p>:param address: IP address or domain.
+:return: Dictionary with WHOIS data.</p></div>
+                        </div>
+                        
+                        <div style="margin-left: 1.5rem; margin-top: 1rem; border-left: 2px solid var(--border); padding-left: 1rem;">
+                            <div class="item-header">
+                                <span class="item-name" style="font-size: 0.9rem;">find_all_images_url</span>
+                                <span class="item-type" style="font-size: 0.6rem;">method</span>
+                            </div>
+                            <code class="signature" style="font-size: 0.8rem;">find_all_images_url(self, site_url, method)</code>
+                            <div class="item-doc" style="font-size: 0.85rem;"><p>Finds all image URLs on the specified site.</p></div>
+                        </div>
+                        
+                        <div style="margin-left: 1.5rem; margin-top: 1rem; border-left: 2px solid var(--border); padding-left: 1rem;">
+                            <div class="item-header">
+                                <span class="item-name" style="font-size: 0.9rem;">get_page_title</span>
+                                <span class="item-type" style="font-size: 0.6rem;">method</span>
+                            </div>
+                            <code class="signature" style="font-size: 0.8rem;">get_page_title(self, site_url)</code>
+                            <div class="item-doc" style="font-size: 0.85rem;"><p>Gets the page title.</p></div>
+                        </div>
+                        
+                        <div style="margin-left: 1.5rem; margin-top: 1rem; border-left: 2px solid var(--border); padding-left: 1rem;">
+                            <div class="item-header">
+                                <span class="item-name" style="font-size: 0.9rem;">get_all_links</span>
+                                <span class="item-type" style="font-size: 0.6rem;">method</span>
+                            </div>
+                            <code class="signature" style="font-size: 0.8rem;">get_all_links(self, site_url)</code>
+                            <div class="item-doc" style="font-size: 0.85rem;"><p>Gets all links on the page.</p></div>
+                        </div>
+                        
+                        <div style="margin-left: 1.5rem; margin-top: 1rem; border-left: 2px solid var(--border); padding-left: 1rem;">
+                            <div class="item-header">
+                                <span class="item-name" style="font-size: 0.9rem;">check_http_status</span>
+                                <span class="item-type" style="font-size: 0.6rem;">method</span>
+                            </div>
+                            <code class="signature" style="font-size: 0.8rem;">check_http_status(self, site_url)</code>
+                            <div class="item-doc" style="font-size: 0.85rem;"><p>Checks the HTTP status code for the specified site.</p></div>
+                        </div>
+                        
+                        <div style="margin-left: 1.5rem; margin-top: 1rem; border-left: 2px solid var(--border); padding-left: 1rem;">
+                            <div class="item-header">
+                                <span class="item-name" style="font-size: 0.9rem;">extract_paragraphs</span>
+                                <span class="item-type" style="font-size: 0.6rem;">method</span>
+                            </div>
+                            <code class="signature" style="font-size: 0.8rem;">extract_paragraphs(self, site_url)</code>
+                            <div class="item-doc" style="font-size: 0.85rem;"><p>Extracts all paragraphs from the specified site.</p></div>
+                        </div>
+                        
+                        <div style="margin-left: 1.5rem; margin-top: 1rem; border-left: 2px solid var(--border); padding-left: 1rem;">
+                            <div class="item-header">
+                                <span class="item-name" style="font-size: 0.9rem;">get_meta_tags</span>
+                                <span class="item-type" style="font-size: 0.6rem;">method</span>
+                            </div>
+                            <code class="signature" style="font-size: 0.8rem;">get_meta_tags(self, site_url)</code>
+                            <div class="item-doc" style="font-size: 0.85rem;"><p>Gets all meta tags from a web page.</p></div>
+                        </div>
+                        
+                        <div style="margin-left: 1.5rem; margin-top: 1rem; border-left: 2px solid var(--border); padding-left: 1rem;">
+                            <div class="item-header">
+                                <span class="item-name" style="font-size: 0.9rem;">check_ssl_certificate</span>
+                                <span class="item-type" style="font-size: 0.6rem;">method</span>
+                            </div>
+                            <code class="signature" style="font-size: 0.8rem;">check_ssl_certificate(self, site_url)</code>
+                            <div class="item-doc" style="font-size: 0.85rem;"><p>Checks the SSL certificate for HTTPS connections.</p></div>
+                        </div>
+                        
+                        <div style="margin-left: 1.5rem; margin-top: 1rem; border-left: 2px solid var(--border); padding-left: 1rem;">
+                            <div class="item-header">
+                                <span class="item-name" style="font-size: 0.9rem;">save_html_to_file</span>
+                                <span class="item-type" style="font-size: 0.6rem;">method</span>
+                            </div>
+                            <code class="signature" style="font-size: 0.8rem;">save_html_to_file(self, site_url, filename)</code>
+                            <div class="item-doc" style="font-size: 0.85rem;"><p>Saves the page's HTML code to a file.</p></div>
+                        </div>
+                        
+                        <div style="margin-left: 1.5rem; margin-top: 1rem; border-left: 2px solid var(--border); padding-left: 1rem;">
+                            <div class="item-header">
+                                <span class="item-name" style="font-size: 0.9rem;">extract_list_items</span>
+                                <span class="item-type" style="font-size: 0.6rem;">method</span>
+                            </div>
+                            <code class="signature" style="font-size: 0.8rem;">extract_list_items(self, site_url)</code>
+                            <div class="item-doc" style="font-size: 0.85rem;"><p>Extracts all list items from a web page.</p></div>
+                        </div>
+                        
+                        <div style="margin-left: 1.5rem; margin-top: 1rem; border-left: 2px solid var(--border); padding-left: 1rem;">
+                            <div class="item-header">
+                                <span class="item-name" style="font-size: 0.9rem;">get_first_h1</span>
+                                <span class="item-type" style="font-size: 0.6rem;">method</span>
+                            </div>
+                            <code class="signature" style="font-size: 0.8rem;">get_first_h1(self, site_url)</code>
+                            <div class="item-doc" style="font-size: 0.85rem;"><p>Gets the first <h1> header from a web page.</p></div>
+                        </div>
+                        
+                        <div style="margin-left: 1.5rem; margin-top: 1rem; border-left: 2px solid var(--border); padding-left: 1rem;">
+                            <div class="item-header">
+                                <span class="item-name" style="font-size: 0.9rem;">get_all_scripts</span>
+                                <span class="item-type" style="font-size: 0.6rem;">method</span>
+                            </div>
+                            <code class="signature" style="font-size: 0.8rem;">get_all_scripts(self, site_url)</code>
+                            <div class="item-doc" style="font-size: 0.85rem;"><p>Gets all script sources from a web page.</p></div>
+                        </div>
+                        
+                        <div style="margin-left: 1.5rem; margin-top: 1rem; border-left: 2px solid var(--border); padding-left: 1rem;">
+                            <div class="item-header">
+                                <span class="item-name" style="font-size: 0.9rem;">extract_form_data</span>
+                                <span class="item-type" style="font-size: 0.6rem;">method</span>
+                            </div>
+                            <code class="signature" style="font-size: 0.8rem;">extract_form_data(self, site_url)</code>
+                            <div class="item-doc" style="font-size: 0.85rem;"><p>Extracts form data from a web page.</p></div>
+                        </div>
+                        
+                        <div style="margin-left: 1.5rem; margin-top: 1rem; border-left: 2px solid var(--border); padding-left: 1rem;">
+                            <div class="item-header">
+                                <span class="item-name" style="font-size: 0.9rem;">get_css_links</span>
+                                <span class="item-type" style="font-size: 0.6rem;">method</span>
+                            </div>
+                            <code class="signature" style="font-size: 0.8rem;">get_css_links(self, site_url)</code>
+                            <div class="item-doc" style="font-size: 0.85rem;"><p>Gets all CSS file links from a web page.</p></div>
+                        </div>
+                        
+                    </div>
+                    </section><section id="craftapi-vartools" class="doc-section"><h2>Module: craftapi.vartools</h2><h3>Classes</h3>
+                    <div class="item">
+                        <div class="item-header">
+                            <div>
+                                <span class="item-name">VarTools</span>
+                                <span class="item-type">class</span>
+                            </div>
+                        </div>
+                        <div class="item-doc"><p>Tools for working with variables and data formatting.</p></div>
+                        
+                        <div style="margin-left: 1.5rem; margin-top: 1rem; border-left: 2px solid var(--border); padding-left: 1rem;">
+                            <div class="item-header">
+                                <span class="item-name" style="font-size: 0.9rem;">__init__</span>
+                                <span class="item-type" style="font-size: 0.6rem;">method</span>
+                            </div>
+                            <code class="signature" style="font-size: 0.8rem;">__init__(self, varlist)</code>
+                            <div class="item-doc" style="font-size: 0.85rem;"><p>Initializes VarTools with a list of variables.</p>
+<p>:param varlist: Dictionary or list of variables to process.</p></div>
+                        </div>
+                        
+                        <div style="margin-left: 1.5rem; margin-top: 1rem; border-left: 2px solid var(--border); padding-left: 1rem;">
+                            <div class="item-header">
+                                <span class="item-name" style="font-size: 0.9rem;">get_var_value</span>
+                                <span class="item-type" style="font-size: 0.6rem;">method</span>
+                            </div>
+                            <code class="signature" style="font-size: 0.8rem;">get_var_value(self, var)</code>
+                            <div class="item-doc" style="font-size: 0.85rem;"><p>Returns the value of a specific variable from the list.</p>
+<p>:param var: Variable name (key in the dictionary).
+:return: Variable value.</p></div>
+                        </div>
+                        
+                        <div style="margin-left: 1.5rem; margin-top: 1rem; border-left: 2px solid var(--border); padding-left: 1rem;">
+                            <div class="item-header">
+                                <span class="item-name" style="font-size: 0.9rem;">clean_type</span>
+                                <span class="item-type" style="font-size: 0.6rem;">method</span>
+                            </div>
+                            <code class="signature" style="font-size: 0.8rem;">clean_type(self, var)</code>
+                            <div class="item-doc" style="font-size: 0.85rem;"><p>Gets the variable type name in a clean format (without 'class').</p>
+<p>:param var: Variable name.
+:return: String with the type name (e.g., 'str', 'int').</p></div>
+                        </div>
+                        
+                        <div style="margin-left: 1.5rem; margin-top: 1rem; border-left: 2px solid var(--border); padding-left: 1rem;">
+                            <div class="item-header">
+                                <span class="item-name" style="font-size: 0.9rem;">format_time</span>
+                                <span class="item-type" style="font-size: 0.6rem;">method</span>
+                            </div>
+                            <code class="signature" style="font-size: 0.8rem;">format_time(self, seconds, lang)</code>
+                            <div class="item-doc" style="font-size: 0.85rem;"><p>Formats the number of seconds into a human-readable time string (e.g., '2 days').</p>
+<p>:param seconds: Time in seconds.
+:param lang: Output language ("en" or "uk"). Defaults to "en".
+:return: Formatted time string.</p></div>
+                        </div>
+                        
+                    </div>
+                    </section>
+    </main>
+</body>
+</html>

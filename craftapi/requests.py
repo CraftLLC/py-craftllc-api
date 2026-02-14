@@ -3,14 +3,23 @@ import bs4
 from urllib.parse import quote as url
 
 class UnknownMethod(Exception):
-    """Виключення для невідомих HTTP методів."""
+    """Exception for unknown HTTP methods."""
     pass
 
 class ReqTools:
+    """A set of tools for performing HTTP requests and parsing web pages."""
+
     def __init__(self):
+        """Initializes a ReqTools instance."""
         pass
      
     def whois(self, address):
+        """
+        Retrieves WHOIS information for a specified IP address or domain.
+
+        :param address: IP address or domain.
+        :return: Dictionary with WHOIS data.
+        """
         address = url(address)
         r = requests.get(f"https://who.is/whois-ip/ip-address/{address}")
         soup = bs4.BeautifulSoup(r.text, "html.parser")
@@ -28,7 +37,7 @@ class ReqTools:
         return toReturn
 
     def find_all_images_url(self, site_url, method="GET", **kwargs):
-        """Знаходить всі URL-адреси зображень на вказаному сайті."""
+        """Finds all image URLs on the specified site."""
         if method.upper() == "GET":
             req = requests.get(site_url, **kwargs)
         elif method.upper() == "POST":
@@ -67,14 +76,14 @@ class ReqTools:
         return images_urls
 
     def get_page_title(self, site_url):
-        """Отримує заголовок сторінки."""
+        """Gets the page title."""
         req = requests.get(site_url)
         req.raise_for_status()
         soup = bs4.BeautifulSoup(req.text, "html.parser")
         return soup.title.string.strip() if soup.title else "No title found"
 
     def get_all_links(self, site_url):
-        """Отримує всі посилання на сторінці."""
+        """Gets all links on the page."""
         req = requests.get(site_url)
         req.raise_for_status()
         soup = bs4.BeautifulSoup(req.text, "html.parser")
@@ -87,7 +96,7 @@ class ReqTools:
         return links
 
     def check_http_status(self, site_url):
-        """Перевіряє HTTP статус-код для вказаного сайту."""
+        """Checks the HTTP status code for the specified site."""
         try:
             req = requests.get(site_url)
             return req.status_code
@@ -95,7 +104,7 @@ class ReqTools:
             return f"Error: {e}"
 
     def extract_paragraphs(self, site_url):
-        """Витягує всі абзаци з вказаного сайту."""
+        """Extracts all paragraphs from the specified site."""
         req = requests.get(site_url)
         req.raise_for_status()
         soup = bs4.BeautifulSoup(req.text, "html.parser")
@@ -103,7 +112,7 @@ class ReqTools:
         return paragraphs
 
     def get_meta_tags(self, site_url):
-        """Отримує всі мета-теги з веб-сторінки."""
+        """Gets all meta tags from a web page."""
         req = requests.get(site_url)
         req.raise_for_status()
         soup = bs4.BeautifulSoup(req.text, "html.parser")
@@ -111,7 +120,7 @@ class ReqTools:
         return meta_tags
 
     def check_ssl_certificate(self, site_url):
-        """Перевіряє SSL сертифікат для HTTPS-з'єднань."""
+        """Checks the SSL certificate for HTTPS connections."""
         try:
             req = requests.get(site_url)
             if req.url.startswith("https"):
@@ -124,7 +133,7 @@ class ReqTools:
             return f"Error: {e}"
 
     def save_html_to_file(self, site_url, filename="output.html"):
-        """Зберігає HTML-код сторінки у файл."""
+        """Saves the page's HTML code to a file."""
         req = requests.get(site_url)
         req.raise_for_status()
         with open(filename, "w", encoding="utf-8") as file:
@@ -132,7 +141,7 @@ class ReqTools:
         return f"HTML content saved to {filename}"
 
     def extract_list_items(self, site_url):
-        """Витягує всі елементи списку з веб-сторінки."""
+        """Extracts all list items from a web page."""
         req = requests.get(site_url)
         req.raise_for_status()
         soup = bs4.BeautifulSoup(req.text, "html.parser")
@@ -140,7 +149,7 @@ class ReqTools:
         return list_items
 
     def get_first_h1(self, site_url):
-        """Отримує перший заголовок <h1> з веб-сторінки."""
+        """Gets the first <h1> header from a web page."""
         req = requests.get(site_url)
         req.raise_for_status()
         soup = bs4.BeautifulSoup(req.text, "html.parser")
@@ -148,7 +157,7 @@ class ReqTools:
         return h1.get_text().strip() if h1 else "No <h1> tag found"
 
     def get_all_scripts(self, site_url):
-        """Отримує всі скрипти з веб-сторінки."""
+        """Gets all script sources from a web page."""
         req = requests.get(site_url)
         req.raise_for_status()
         soup = bs4.BeautifulSoup(req.text, "html.parser")
@@ -156,7 +165,7 @@ class ReqTools:
         return scripts
 
     def extract_form_data(self, site_url):
-        """Витягує дані з форм на веб-сторінці."""
+        """Extracts form data from a web page."""
         req = requests.get(site_url)
         req.raise_for_status()
         soup = bs4.BeautifulSoup(req.text, "html.parser")
@@ -169,7 +178,7 @@ class ReqTools:
         return forms
 
     def get_css_links(self, site_url):
-        """Отримує всі посилання на CSS файли з веб-сторінки."""
+        """Gets all CSS file links from a web page."""
         req = requests.get(site_url)
         req.raise_for_status()
         soup = bs4.BeautifulSoup(req.text, "html.parser")

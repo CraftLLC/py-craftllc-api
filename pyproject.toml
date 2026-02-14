@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "craftllc-api"
-version = "0.1.4"
+version = "1.0.0"
 description = "CraftAPI, easy to use scraping and API library."
 readme = "README.md"
 authors = [
@@ -21,3 +21,6 @@ dependencies = [
     "requests",
     "bs4",
 ]
+
+[project.urls]
+"Repository" = "https://github.com/CraftLLC/py-craftllc-api"

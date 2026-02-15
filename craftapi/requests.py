@@ -149,7 +149,7 @@ class ReqTools:
         return list_items
 
     def get_first_h1(self, site_url):
-        """Gets the first <h1> header from a web page."""
+        """Gets the first &lt;h1&gt; header from a web page."""
         req = requests.get(site_url)
         req.raise_for_status()
         soup = bs4.BeautifulSoup(req.text, "html.parser")
